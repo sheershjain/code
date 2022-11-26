@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Create Flat detail</title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="text-center">Update an Flat detail</h1>
+		{% for error in errors %}
+			<div class="alert alert-danger" role="alert">
+  				{{ error }}
+			</div>
+		{% endfor %}
+		<div id="result" class="text-success"></div>
+		<form method="POST">
+		  <div class="mb-3">
+		    <label for="floor_no" class="form-label">Floor no.</label>
+		    <input type="text" id="floor_no" class="form-control" required name="floor_no" value={{flat.floor_no}} placeholder="enter floor no.">
+		 </div>
+         <div class="mb-3">
+		    <label for="rooms" class="form-label">Rooms</label>
+		    <input type="text" class="form-control" required id="rooms" name="rooms" value={{flat.rooms}} placeholder="enter rooms">
+		 </div>
+         <div class="mb-3">
+		    <label for="halls" class="form-label">Halls</label>
+		    <input type="text" class="form-control"  required name="halls" id="halls"  value={{flat.halls}} placeholder="enter halls">
+		 </div>
+         <div class="mb-3">
+		    <label for="monthly_rent" class="form-label">Monthly_rent</label>
+		    <input type="text" class="form-control" id="monthly_rent" required name="monthly_rent" value={{flat.monthly_rent}} placeholder="enter monthly_rent">
+		 </div>
+		 <div class="mb-3">
+    		<label for="description" class="form-label">Item Description</label>
+    		<textarea class="form-control" required name="description" id="description" placeholder="Enter flat description">{{flat.description}}</textarea>
+			<div class="form-text">Describe all details about flat</div>
+  		</div>
+  			
+		</form>
+		<button type="submit" class="btn btn-primary" onclick="update_flat({{flat.id}})">Update</button>
+	</div>
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+	function update_flat(id)
+	{
+		var data = {}	
+		data["floor_no"] = document.getElementById("floor_no").value
+		data["rooms"] = document.getElementById("rooms").value
+		data["halls"] = document.getElementById("halls").value
+		data["monthly_rent"] = document.getElementById("monthly_rent").value
+		data["description"] = document.getElementById("description").value
+		
+		fetch("/flat/update/"+id, {method:'PUT',
+			  headers: {'Content-Type':'application/json',},
+			  body: JSON.stringify(data)})
+		.then(response => response.json())
+		.then(data => document.getElementById("result").innerHTML = data.message+". Kindly refresh the page") 
+	}
+</script>
+{% endblock %}

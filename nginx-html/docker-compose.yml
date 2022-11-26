@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  nginx-container2:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 82:80
+
+    volumes:
+      - /Users/apple/code/nginx-html:/usr/share/nginx/html
+    

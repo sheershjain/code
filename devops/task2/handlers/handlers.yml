@@ -1,0 +1,8 @@
+---
+- name: output
+  debug:
+    msg: "Copied Successfully"
+
+- name: output1
+  debug:
+    msg: "Script run Successfully"

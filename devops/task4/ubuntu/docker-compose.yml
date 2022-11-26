@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    networks:
+      - task
+    volumes:
+      - /Users/apple/code/devops/task4/ubuntu/web_pages:/usr/share/nginx/html
+
+  ubuntu:
+    command: ping 8.8.8.8
+    image: sheershubuntu
+    networks:
+      - task
+
+
+networks:
+  task:
+    name: custom_frontend
+    driver: bridge

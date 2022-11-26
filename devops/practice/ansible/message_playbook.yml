@@ -1,0 +1,26 @@
+- hosts: all
+  vars:
+    w:
+      id: 1
+      name: "sheersh jain"
+    x: 
+    - 1
+    - 2
+    - 3
+    y: 4
+  tasks:
+    - command: "date"
+      register: z
+
+    - debug:
+        msg: "Message from sheersh jain"
+    - debug:
+        var: w['name']
+    - debug:
+        var: w.id
+    - debug:
+        var: x
+    - debug:
+        var: z
+    - debug:
+        msg: "Value of x is {{ x[1] }}"

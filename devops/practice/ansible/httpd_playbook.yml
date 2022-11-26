@@ -1,0 +1,38 @@
+- hosts: all
+  vars:
+    pack: 
+     - "httpd"
+     - "php"
+
+  vars_prompt:
+    - name: software_name
+      private: no
+      prompt: "Enter software name"
+
+  tasks:
+    - name: "Install httpd web server"
+      package: 
+        name: "{{ pack }}" 
+        state: present
+      register: update
+
+    - name: "Copy web pages"
+      copy: 
+        src: "./sheersh.html" 
+        dest: "/var/www/html"
+
+    - debug:
+        var: software_name
+
+    - debug:
+        var: update.changed 
+    
+    - service: 
+        name: httpd 
+        state: started 
+        enabled: yes
+
+    - fail:
+        msg: Already Installed
+      when: update.changed==false
+  become: yes 

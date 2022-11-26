@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+{% block title %}
+	<title> Flat Home Page </title>
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<h3 class="text-center"> All Flats... </h3></br>
+		{% if msg %}
+			<div class="alert alert-success" role="alert">
+  				{{msg}}
+			</div>
+		{% endif %}
+		<div class="row">
+			{% for flat in flats %}
+				<div class="col-md-4">
+					{% with obj=flat %}
+						{% include 'card.html' %}
+					{% endwith %}
+					{% if loop.index % 3 %}
+						<br>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

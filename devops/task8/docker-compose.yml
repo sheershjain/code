@@ -1,0 +1,56 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:5.7
+        restart: always
+        container_name: os1
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_ROOT_PASSWORD: ''
+            MYSQL_DATABASE: 'db'
+            MYSQL_USER: 'sheersh'
+            MYSQL_PASSWORD: 'sheersh'
+
+        ports:
+            - '3307:3306'
+
+        volumes:
+            - db_data:/var/lib/mysql
+
+    postgres:
+        image: postgres
+        container_name: os2
+        ports:
+            - 5432:5432
+        restart: always
+        environment:
+            POSTGRES_USER: sheersh
+            POSTGRES_DATABASE: postgres
+            POSTGRES_PASSWORD: sheersh
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+    redis:
+        image: redis
+        container_name: os3
+        volumes:
+            - redis_data:/data/
+        restart: always
+        command: redis-server --requirepass sheersh
+        ports:
+            - 6379:6379
+
+    redisinsight:
+        image: redislabs/redisinsight:latest
+        container_name: os4
+        ports:
+            - '8001:8001'
+        volumes:
+            - insight_data:/db 
+volumes:
+    db_data:
+    postgres_data:
+    redis_data:
+    insight_data:
+
+

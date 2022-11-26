@@ -1,0 +1,48 @@
+- name: Transfer and execute a script.
+  hosts: test
+  force_handlers: yes
+  tasks:
+     - name: Block 1
+       block:
+       - name: Transfer the script
+         copy: src=script.sh dest=/home/sheersh mode=771
+         register: result
+         notify: output
+
+      #  - name: Check
+      #    fail:
+      #     msg: "verifying result"
+      #    when:
+      #     - '"true" not in result.changed'
+        
+         
+         
+         
+       - name: "test cronjob"
+         cron:
+            name: cronjob
+            state: present
+            minute: "*/5"
+            hour: "*"
+            day: "*"
+            month: "*"
+            weekday: "*"
+            job: 'sh script.sh'
+         notify: output1
+          
+          
+       rescue:
+        - debug:
+            msg: "Something went wrong, cleaning up.."
+          
+
+       always:
+        - debug:
+            msg: "I will execute even in failure scenario"
+
+  handlers:
+  - ansible.builtin.import_tasks: ./handlers/handlers.yml
+      
+  
+  
+    

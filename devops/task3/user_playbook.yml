@@ -1,0 +1,16 @@
+- name: Create user and group.
+  hosts: test
+  tasks:
+    - name: Add the user 'johnd' with a specific uid 
+      user:
+        name: johnd
+        comment: John Doe
+        uid: 1040
+      become: true
+
+    - name: Ensure group "docker" exists with correct gid
+      group:
+        name: docker
+        state: present
+        gid: 1750
+      become: true
