@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+        image: himanshu_b
+        container_name: backend
+        networks:
+            - common
+        env_file:
+            - ./backend/.env
+        depends_on:
+            - db
+        ports:
+            - 5000:5000
+  db:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: demo
+      MYSQL_USER: sheersh
+      MYSQL_PASSWORD: sheersh
+    ports:
+      - "3306:3306"
+    networks:
+          - common
+    volumes:
+      - ./data/sql:/var/lib/mysql
+
+networks:
+  common:
+    name: common

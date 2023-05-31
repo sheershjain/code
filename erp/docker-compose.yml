@@ -1,0 +1,56 @@
+version: '3.7'
+services:
+  backend:
+        image: sheersh/erp-backend:1
+        container_name: backend
+        restart: unless-stopped
+        ports:
+            - 3004:3004
+        networks:
+            - common
+        depends_on:
+            - postgres
+        environment:
+            - DB_HOST=postgres
+            - DB_NAME=sheersh
+            - DB_PASSWORD=sheersh
+            - DB_PORT=5432
+            - DB_USER=sheersh
+            - EMAIL=tanu16782@gmail.com
+            - WORD=Google@10
+            - OAUTH_CLIENTID=514418643184-bg8bg0qin2fsnegr5eddqbalt3mrr6bb.apps.googleusercontent.com
+            - OAUTH_CLIENT_SECRET=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
+            - OAUTH_REFRESH_TOKEN=1//04ZsUj-p9yu3xCgYIARAAGAQSNwF-L9IrITwIv-wmZxpXW293uB3POOpdRcDghJD6s8venpa4TEy1xjP7_NMpETyjy8UtMa3NHnM
+            - SECRET_KEY=80f1a593-2aaa-427e-bcc1-a870ccdc4bc2
+            - MAIL_USER=sheershjain.it23@gmail.com
+            - MAIL_PASS=enkbquzebtdirtzm
+
+  postgres:
+        image: postgres
+        container_name: postgres
+        restart: unless-stopped
+        ports:
+            - 5432:5432
+        networks:
+           - common
+        environment:
+            POSTGRES_USER: sheersh
+            POSTGRES_DB: sheersh
+            POSTGRES_PASSWORD: sheersh
+        volumes:
+            - ./data/postgres_dumps:/var/lib/postgresql/data/
+
+  frontend:
+        container_name: frontend
+        image: sheersh/erp-frontend:1
+        restart: unless-stopped
+        networks:
+           - common
+        depends_on:
+           - backend
+        ports:
+          - 80:80
+
+networks:
+  common:
+    external: true
